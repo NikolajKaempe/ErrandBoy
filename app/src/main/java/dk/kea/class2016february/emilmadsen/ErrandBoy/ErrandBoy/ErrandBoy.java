@@ -17,38 +17,38 @@ public class ErrandBoy
     private int actionCounter = 0;
     float x = 337, y = 325, velocityX = 0, velocityY = 0;
     double timeReset = 0.1, timeCount = timeReset;
-    static float VELOCITY = 9;
+    static float VELOCITY = 16.66f;
 
 
     public ErrandBoy(Bitmap picture)
     {
         this.picture = picture;
         BitmapCoordinates[] moveDownCords = new BitmapCoordinates[4];
-        moveDownCords[0] = new BitmapCoordinates(15,11,35,50);
-        moveDownCords[1] = new BitmapCoordinates(78,13,36,50);
-        moveDownCords[2] = new BitmapCoordinates(15,11,35,50);
-        moveDownCords[3] = new BitmapCoordinates(204,12,36,50);
+        moveDownCords[0] = new BitmapCoordinates(78,13,36,50);
+        moveDownCords[1] = new BitmapCoordinates(15,11,35,50);
+        moveDownCords[2] = new BitmapCoordinates(204,12,36,50);
+        moveDownCords[3] = new BitmapCoordinates(15,11,35,50);
         moveDown = new BitmapAction(moveDownCords);
 
         BitmapCoordinates[] moveUpCords = new BitmapCoordinates[4];
-        moveUpCords[0] = new BitmapCoordinates(13,203,36,50);
-        moveUpCords[1] = new BitmapCoordinates(76,205,36,50);
-        moveUpCords[2] = new BitmapCoordinates(13,203,36,50);
-        moveUpCords[3] = new BitmapCoordinates(206,201,36,50);
+        moveUpCords[0] = new BitmapCoordinates(76,205,36,50);
+        moveUpCords[1] = new BitmapCoordinates(13,203,36,50);
+        moveUpCords[2] = new BitmapCoordinates(206,201,36,50);
+        moveUpCords[3] = new BitmapCoordinates(13,203,36,50);
         moveUp = new BitmapAction(moveUpCords);
 
         BitmapCoordinates[] moveLeftCords = new BitmapCoordinates[4];
-        moveLeftCords[0] = new BitmapCoordinates(16,75,36,50);
-        moveLeftCords[1] = new BitmapCoordinates(79,74,36,50);
-        moveLeftCords[2] = new BitmapCoordinates(144,75,36,50);
-        moveLeftCords[3] = new BitmapCoordinates(207,75,36,50);
+        moveLeftCords[0] = new BitmapCoordinates(79,74,36,50);
+        moveLeftCords[1] = new BitmapCoordinates(144,75,36,50);
+        moveLeftCords[2] = new BitmapCoordinates(207,75,36,50);
+        moveLeftCords[3] = new BitmapCoordinates(16,75,36,50);
         moveLeft = new BitmapAction(moveLeftCords);
 
         BitmapCoordinates[] moveRightCords = new BitmapCoordinates[4];
-        moveRightCords[0] = new BitmapCoordinates(13,139,36,50);
-        moveRightCords[1] = new BitmapCoordinates(79,139,36,50);
-        moveRightCords[2] = new BitmapCoordinates(13,139,36,50);
-        moveRightCords[3] = new BitmapCoordinates(207,137,36,50);
+        moveRightCords[0] = new BitmapCoordinates(79,139,36,50);
+        moveRightCords[1] = new BitmapCoordinates(13,139,36,50);
+        moveRightCords[2] = new BitmapCoordinates(207,137,36,50);
+        moveRightCords[3] = new BitmapCoordinates(13,139,36,50);
         moveRight = new BitmapAction(moveRightCords);
 
         currentBitmap = moveUp.getBitmap(0);
@@ -72,7 +72,7 @@ public class ErrandBoy
         {
             movingState = MovingStates.Up;
             currentAction = moveUp;
-            velocityY = -VELOCITY;
+            velocityY = -VELOCITY ;
         }
         else if (way.equals(MovingStates.Down))
         {
@@ -105,6 +105,7 @@ public class ErrandBoy
                 x = x + velocityX;
                 y = y + velocityY;
                 currentBitmap = currentAction.getBitmap(actionCounter);
+
             }
         }
     }
