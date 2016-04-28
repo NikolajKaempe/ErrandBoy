@@ -16,7 +16,7 @@ public class ErrandBoy
     MovingStates movingState = MovingStates.Still;
     private int actionCounter = 0;
     float x = 337, y = 325, velocityX = 0, velocityY = 0;
-    double timeReset = 0.1, timeCount = timeReset;
+    double timeReset = 0.07, timeCount = timeReset;
     static float VELOCITY = 16.66f;
 
 
@@ -79,6 +79,12 @@ public class ErrandBoy
             movingState = MovingStates.Down;
             currentAction = moveDown;
             velocityY = VELOCITY;
+        }
+        else if (way.equals(MovingStates.Still))
+        {
+            movingState = MovingStates.Still;
+            velocityX = 0;
+            velocityY = 0;
         }
         resetCounters();
     }
