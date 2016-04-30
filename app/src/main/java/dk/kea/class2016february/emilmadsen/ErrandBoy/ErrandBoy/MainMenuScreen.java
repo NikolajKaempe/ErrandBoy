@@ -51,13 +51,6 @@ public class MainMenuScreen extends Screen
             }
         }
 
-        /*
-        if (game.getTouchX(0) > 10 && game.getTouchX(0) < 100
-            && game.getTouchY(0) > 10 && game.getTouchY(0) < 100  )// TODO Get actual position
-        {
-            game.setScreen(gameScreen);
-        }
-        */
     }
 
     @Override
