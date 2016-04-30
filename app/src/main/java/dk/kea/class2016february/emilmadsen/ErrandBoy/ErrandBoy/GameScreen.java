@@ -45,7 +45,7 @@ public class GameScreen extends Screen
                 world.errandBoy.move(MovingStates.Left);
             }
             //Move Right
-            else if (touchX > 710-70 && touchY < 400-70 && touchX > 70
+            else if (touchX > 710-70 && touchY < 400-70 && touchY > 70
                     && world.errandBoy.movingState == MovingStates.Still)
             {
                 world.errandBoy.move(MovingStates.Right);
