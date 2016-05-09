@@ -5,7 +5,7 @@ package dk.kea.class2016february.emilmadsen.ErrandBoy;
  */
 public class BitmapCoordinates
 {
-    private int srcX, srcY, width, height;
+    public int srcX, srcY, width, height;
 
     public BitmapCoordinates(int srcX, int srcY, int width, int height)
     {
@@ -13,25 +13,5 @@ public class BitmapCoordinates
         this.srcY = srcY;
         this.width = width;
         this.height = height;
-    }
-
-    public int getSrcX()
-    {
-        return srcX;
-    }
-
-    public int getSrcY()
-    {
-        return srcY;
-    }
-
-    public int getWidth()
-    {
-        return width;
-    }
-
-    public int getHeight()
-    {
-        return height;
     }
 }

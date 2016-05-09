@@ -66,9 +66,9 @@ public class World
     private void collideWalls(float deltaTime)
     {
         //Right Wall
-        if (errandBoy.x + errandBoy.currentBitmap.getWidth() > MAX_X)
+        if (errandBoy.x + errandBoy.currentBitmap.width > MAX_X)
         {
-            errandBoy.x = MAX_X - errandBoy.currentBitmap.getWidth();
+            errandBoy.x = MAX_X - errandBoy.currentBitmap.width;
             errandBoy.currentBitmap = errandBoy.moveLeft.getBitmap(1);
         }
         // Left Wall
@@ -78,9 +78,9 @@ public class World
             errandBoy.currentBitmap = errandBoy.moveRight.getBitmap(1);
         }
         // Lower Wall
-        else if (errandBoy.y + errandBoy.currentBitmap.getHeight() > MAX_Y)
+        else if (errandBoy.y + errandBoy.currentBitmap.height > MAX_Y)
         {
-            errandBoy.y = MAX_Y - errandBoy.currentBitmap.getHeight();
+            errandBoy.y = MAX_Y - errandBoy.currentBitmap.height;
             errandBoy.currentBitmap = errandBoy.moveUp.getBitmap(1);
         }
         //Upper wall
@@ -105,7 +105,7 @@ public class World
         if (lane1.size() > 0)
         {
             curCar = lane1.get(lane1.size()-1);
-            if (curCar.x > MIN_X + (2 * errandBoy.currentBitmap.getWidth()))
+            if (curCar.x > MIN_X + (2 * errandBoy.currentBitmap.width))
             {
                 spawnCar(1,lane1);
             }
@@ -116,7 +116,7 @@ public class World
         if (lane2.size() > 0)
         {
             curCar = lane2.get(lane2.size()-1);
-            if (curCar.x > MIN_X + (2 * errandBoy.currentBitmap.getWidth()))
+            if (curCar.x > MIN_X + (2 * errandBoy.currentBitmap.width))
             {
                 spawnCar(2,lane2);
             }
@@ -127,7 +127,7 @@ public class World
         if (lane3.size() > 0)
         {
             curCar = lane3.get(lane3.size()-1);
-            if (curCar.x + curCar.currentBitmap.getWidth() < MAX_X - (2* errandBoy.currentBitmap.getWidth()))
+            if (curCar.x + curCar.currentBitmap.width < MAX_X - (2* errandBoy.currentBitmap.width))
             {
                 spawnCar(3,lane3);
             }
@@ -138,7 +138,7 @@ public class World
         if (lane4.size() > 0)
         {
             curCar = lane4.get(lane4.size()-1);
-            if (curCar.x + curCar.currentBitmap.getWidth() < MAX_X - (2* errandBoy.currentBitmap.getWidth()))
+            if (curCar.x + curCar.currentBitmap.width < MAX_X - (2* errandBoy.currentBitmap.width))
             {
                 spawnCar(4,lane4);
             }
@@ -190,14 +190,14 @@ public class World
         if (lane3.size() > 0)
         {
             curCar = lane3.get(0);
-            if (curCar.x <= MIN_X - curCar.currentBitmap.getWidth()){
+            if (curCar.x <= MIN_X - curCar.currentBitmap.width){
                 lane3.remove(0);
             }
         }
         if (lane4.size() > 0)
         {
             curCar = lane4.get(0);
-            if (curCar.x <= MIN_X - curCar.currentBitmap.getWidth()){
+            if (curCar.x <= MIN_X - curCar.currentBitmap.width){
                 lane4.remove(0);
             }
         }

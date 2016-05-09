@@ -22,8 +22,9 @@ public class MainMenuScreen extends Screen
     private RecordScreen recordScreen;
     private Music music;
     private Sound readySound;
-    private Bitmap mainmenu, boy;
+    private Bitmap boy;
     private BitmapAction runningBoy;
+    private  ScrollingBackground background;
     private int actionCounter = 0;
     private float resetTime = 0.05f;
     private int xTest = 50;
@@ -32,7 +33,7 @@ public class MainMenuScreen extends Screen
     {
         super(game);
         music = game.loadMusic("mainmenu.mp3");
-        mainmenu = game.loadBitmap("mainMenuBackground.jpg");
+        background = new ScrollingBackground(game.loadBitmap("mainMenuBackground.jpg"));
         readySound = game.loadSound("gameStart.mp3");
         boy = game.loadBitmap("backgroundBoy.png");
         gameScreen = new GameScreen(game,this);
@@ -54,7 +55,7 @@ public class MainMenuScreen extends Screen
     @Override
     public void update(float deltaTime)
     {
-        game.drawBitmap(mainmenu,0,0);
+
 
         List<TouchEvent> events = game.getTouchEvents();
         int stop = events.size();
@@ -80,8 +81,19 @@ public class MainMenuScreen extends Screen
         }
         if(xTest > 700) xTest = 0;
         xTest++;
+
+        background.move(deltaTime);
+
+
+        BitmapCoordinates cb = background.picture1;
+        game.drawBitmap(background.bitmap,0,0,
+                cb.srcX,cb.srcY,cb.width,cb.height);
+        cb = background.picture2;
+        game.drawBitmap(background.bitmap,background.picture1.width,0,
+                cb.srcX,cb.srcY,cb.width,cb.height);
+
         BitmapCoordinates bc = runningBoy.getBitmap(actionCounter);
-        game.drawBitmap(boy, xTest-(bc.getWidth()/2), 300, bc.getSrcX(), bc.getSrcY(), bc.getWidth(), bc.getHeight());
+        game.drawBitmap(boy, xTest-(bc.width/2), 300, bc.srcX, bc.srcY, bc.width, bc.height);
     }
 
     @Override

@@ -25,7 +25,7 @@ public class Car
         {
             // Lowest Lane -- Driving right
             currentBitmap = new BitmapCoordinates(0,0,130,48);
-            x = 0 - currentBitmap.getWidth();
+            x = 0 - currentBitmap.width;
             y = 276;
             velocity = 1.5f;
         }
@@ -33,7 +33,7 @@ public class Car
         {
             // Second Lowest Lane -- Driving Right
             currentBitmap = new BitmapCoordinates(0,50,130,48);
-            x = 0 - currentBitmap.getWidth();
+            x = 0 - currentBitmap.width;
             y = 226;
             velocity = 3f;
         }
