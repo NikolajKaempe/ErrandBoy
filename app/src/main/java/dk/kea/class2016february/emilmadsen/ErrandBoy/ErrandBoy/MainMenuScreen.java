@@ -26,7 +26,7 @@ public class MainMenuScreen extends Screen
     {
         super(game);
         music = game.loadMusic("mainmenu.mp3");
-        mainmenu = game.loadBitmap("mainMenu.png");
+        mainmenu = game.loadBitmap("mainMenuBackground.jpg");
         readySound = game.loadSound("gameStart.mp3");
         gameScreen = new GameScreen(game,this);
         recordScreen = new RecordScreen(game,this);

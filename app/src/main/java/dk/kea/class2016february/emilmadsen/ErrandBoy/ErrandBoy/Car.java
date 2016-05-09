@@ -12,7 +12,7 @@ public class Car
     BitmapCoordinates currentBitmap;
     int type;
     float x, y, velocity;
-    double timeReset = 0.07, timeCount = timeReset;
+    double timeReset = 0.02, timeCount = timeReset;
 
     public Car(int type)
     {
@@ -27,7 +27,7 @@ public class Car
             currentBitmap = new BitmapCoordinates(0,0,130,48);
             x = 0 - currentBitmap.getWidth();
             y = 276;
-            velocity = 5;
+            velocity = 1.5f;
         }
         else if (type == 2)
         {
@@ -35,7 +35,7 @@ public class Car
             currentBitmap = new BitmapCoordinates(0,50,130,48);
             x = 0 - currentBitmap.getWidth();
             y = 226;
-            velocity = 10;
+            velocity = 3f;
         }
         else if (type == 3)
         {
@@ -43,7 +43,7 @@ public class Car
             currentBitmap = new BitmapCoordinates(0,100,130,48);
             x = 710;
             y = 126;
-            velocity = -10;
+            velocity = -3f;
         }
         else if (type == 4)
         {
@@ -51,7 +51,7 @@ public class Car
             currentBitmap = new BitmapCoordinates(0,0,130,48);
             x = 710;
             y = 76;
-            velocity = -5;
+            velocity = -1.5f;
         }
     }
 
