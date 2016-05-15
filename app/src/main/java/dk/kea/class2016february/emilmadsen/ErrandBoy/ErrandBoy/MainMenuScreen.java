@@ -1,6 +1,7 @@
 package dk.kea.class2016february.emilmadsen.ErrandBoy.ErrandBoy;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 
 import java.util.List;
 
@@ -22,11 +23,13 @@ public class MainMenuScreen extends Screen
     private RecordScreen recordScreen;
     private Music music;
     private Sound readySound;
-    private Bitmap boy;
+    private Bitmap boy, soundIcon;
     private BitmapAction runningBoy;
     private  ScrollingBackground background;
     private int actionCounter = 0;
     private float resetTime = 0.05f;
+    private float textCounter = 0.4f;
+    private boolean drawText = true;
     private int xTest = 50;
 
     public MainMenuScreen(Game game)
@@ -38,6 +41,7 @@ public class MainMenuScreen extends Screen
         boy = game.loadBitmap("backgroundBoy.png");
         gameScreen = new GameScreen(game,this);
         recordScreen = new RecordScreen(game,this);
+        soundIcon = game.loadBitmap("soundIcon.png");
 
         BitmapCoordinates[] runningCords = new BitmapCoordinates[6];
         runningCords[0] = new BitmapCoordinates(2,12,43,73);
@@ -56,16 +60,35 @@ public class MainMenuScreen extends Screen
     public void update(float deltaTime)
     {
 
-
         List<TouchEvent> events = game.getTouchEvents();
         int stop = events.size();
         for (int i = 0; i < stop; i++)
         {
             if(events.get(i).type == TouchEvent.TouchEventType.Up)
             {
-                if (music.isPlaying()) { music.stop(); }
-                readySound.play(0.7f);
-                game.setScreen(gameScreen);
+                if (game.getTouchX(0) >= 720-100 && game.getTouchY(0) <= 70)
+                {
+                    if (game.isMuted())
+                    {
+                        game.toggleMuted();
+                        music.play();
+                    }
+                    else
+                    {
+                        game.toggleMuted();
+                        music.dispose();
+                        music = game.loadMusic("mainmenu.mp3");
+                    }
+                }
+                else
+                {
+                    if (music.isPlaying()) { music.stop(); }
+                    if (!game.isMuted())
+                    {
+                        readySound.play(0.7f);
+                    }
+                    game.setScreen(gameScreen);
+                }
             }
         }
 
@@ -84,6 +107,19 @@ public class MainMenuScreen extends Screen
 
         background.move(deltaTime);
 
+        textCounter = textCounter - deltaTime;
+        if (textCounter <= 0)
+        {
+            textCounter = 0.4f;
+            if (drawText)
+            {
+                drawText = false;
+            }
+            else
+            {
+                drawText = true;
+            }
+        }
 
         BitmapCoordinates cb = background.picture1;
         game.drawBitmap(background.bitmap,0,0,
@@ -93,7 +129,22 @@ public class MainMenuScreen extends Screen
                 cb.srcX,cb.srcY,cb.width,cb.height);
 
         BitmapCoordinates bc = runningBoy.getBitmap(actionCounter);
-        game.drawBitmap(boy, xTest-(bc.width/2), 300, bc.srcX, bc.srcY, bc.width, bc.height);
+        game.drawBitmap(boy, xTest - (bc.width / 2), 300, bc.srcX, bc.srcY, bc.width, bc.height);
+
+        if (drawText)
+        {
+            game.drawText(game.loadFont("game-font.ttf"),"TAP TO START",220,50, Color.BLACK,75);
+        }
+
+        if (game.isMuted())
+        {
+            game.drawBitmap(soundIcon,720-80,1,0,43,58,43);
+        }
+        else
+        {
+            game.drawBitmap(soundIcon,720-80,1,0,0,58,43);
+
+        }
     }
 
     @Override
@@ -113,4 +164,5 @@ public class MainMenuScreen extends Screen
     {
 
     }
+
 }

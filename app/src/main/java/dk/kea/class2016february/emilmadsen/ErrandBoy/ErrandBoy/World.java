@@ -15,8 +15,10 @@ public class World
     public static final float MIN_X = 0,MAX_X = 710,MIN_Y = 25,MAX_Y = 375;
     ErrandBoy errandBoy;
     List<Car> lane1,lane2,lane3,lane4;
-    private Sound wallImpactSound;
+    private Sound wallImpactSound, carImpactSound;
     float soundReset = 0;
+    float timeCounter = 0.1f, timeAlive = 0;
+    int coins = 0;
 
     public World(Game game)
     {
@@ -27,6 +29,7 @@ public class World
         lane3 = new ArrayList<>();
         lane4 = new ArrayList<>();
         wallImpactSound = game.loadSound("impactWall.wav");
+        carImpactSound = game.loadSound("explosion.ogg");
     }
 
     public void update(float deltaTime)
@@ -49,18 +52,73 @@ public class World
         }
         if (soundReset > 0) { soundReset = soundReset - deltaTime; }
 
+        timeCounter = timeCounter + deltaTime;
+        if (timeCounter >= 0.1)
+        {
+            timeAlive = timeAlive + 0.1f;
+            timeCounter = 0.1f;
+        }
+
         spawnCars();
         deSpawnCars();
 
         errandBoy.update(deltaTime);
         collideWalls(deltaTime);
         collideCars();
+        collideCoins();
 
+    }
+
+    private void collideCoins()
+    {
+        respawnCoin();
+        coins++;
+    }
+
+    private void respawnCoin()
+    {
+        //Todo despawn old one.
+        //Todo spawn new in other lane.
     }
 
     private void collideCars()
     {
+        for (Car car : lane1)
+        {
+            collideRects(car.x, car.y, car.currentBitmap.width, car.currentBitmap.height,
+                    errandBoy.x+3, errandBoy.y+3, errandBoy.currentBitmap.width-6, errandBoy.currentBitmap.height-6);
+        }
+        for (Car car : lane2)
+        {
+            collideRects(car.x, car.y, car.currentBitmap.width, car.currentBitmap.height,
+                    errandBoy.x+3, errandBoy.y+3, errandBoy.currentBitmap.width-6, errandBoy.currentBitmap.height-6);
+        }
+        for (Car car : lane3)
+        {
+            collideRects(car.x, car.y, car.currentBitmap.width, car.currentBitmap.height,
+                    errandBoy.x+3, errandBoy.y+3, errandBoy.currentBitmap.width-6, errandBoy.currentBitmap.height-6);
+        }
+        for (Car car : lane4)
+        {
+            collideRects(car.x, car.y, car.currentBitmap.width, car.currentBitmap.height,
+                    errandBoy.x+3, errandBoy.y+3, errandBoy.currentBitmap.width-6, errandBoy.currentBitmap.height-6);
+        }
 
+    }
+
+    private void collideRects(float rect1X, float rect1Y, float rect1Width, float rect1Height,
+                                 float rect2X, float rect2Y, float rect2Width, float rect2Height)
+    {
+
+        // Top and Bottom Collision
+        if (rect1X < rect2X+rect2Width &&
+                rect1X + rect1Width > rect2X &&
+                rect1Y < rect2Y + rect2Height &&
+                rect1Y + rect1Height > rect2Y)
+        {
+            //TODO Gameover state + collision sound;
+            carImpactSound.play(0.8f);
+        }
     }
 
     private void collideWalls(float deltaTime)
@@ -93,7 +151,7 @@ public class World
 
         errandBoy.move(MovingStates.Still);
 
-        if (soundReset <= 0){
+        if (soundReset <= 0 && !game.isMuted()){
             soundReset = 0.5f;
             wallImpactSound.play(1);
         }
@@ -166,7 +224,7 @@ public class World
 
         if (value <= spawnValue)
         {
-            lane.add(new Car(carType));
+            lane.add(new Car(carType,1)); //TODO Not static niveau 2..
         }
     }
 

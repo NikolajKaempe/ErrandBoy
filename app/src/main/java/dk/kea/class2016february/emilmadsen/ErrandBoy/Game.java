@@ -24,10 +24,16 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+
+import dk.kea.class2016february.emilmadsen.ErrandBoy.ErrandBoy.Statistic;
 
 public abstract class Game extends Activity implements Runnable, View.OnKeyListener, TouchHandler, SensorEventListener
 {
@@ -51,15 +57,16 @@ public abstract class Game extends Activity implements Runnable, View.OnKeyListe
     private TouchEventPool touchEventPool = new TouchEventPool();
     private List<TouchEvent> touchEvents = new ArrayList<>();
     private List<TouchEvent> touchEventBuffer = new ArrayList<>();
-
     private float[] accelerometer = new float[3];
-
     private SoundPool soundPool;
-
     private Paint paint = new Paint();
-
     private int framesPerSecond = -1;
+    private boolean isMuted = false;
 
+    private String fileName = "/data/dk.kea.class2016february.emilmadsen.helloworld/files/statistics";
+    private File statisticFile = new File("statistics");
+    private ObjectInputStream fileReader;
+    private ObjectOutputStream fileWriter;
     // end of global variables, and start of methods
 
     public abstract Screen createStartScreen();
@@ -92,6 +99,13 @@ public abstract class Game extends Activity implements Runnable, View.OnKeyListe
         surfaceView.setOnKeyListener(this);
         touchHandler = new MultiTouchHandler(surfaceView, touchEventBuffer, touchEventPool);
         SensorManager manager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+
+
+        ArrayList<Statistic> list = new ArrayList<>();
+        list.add(new Statistic("Emil!", 1000, 60.5f));
+        list.add(new Statistic("Awesome Nikolaj 2016", 9000, 10.5f));
+        //writeGameStatisticObject(list);
+
         if(manager.getSensorList(Sensor.TYPE_ACCELEROMETER).size() != 0)
         {
             Sensor accelerometer = manager.getSensorList(Sensor.TYPE_ACCELEROMETER).get(0);
@@ -131,6 +145,8 @@ public abstract class Game extends Activity implements Runnable, View.OnKeyListe
         paint.setColor(color);
         canvas.drawText(text,positionX,positionY+size, paint);
     }
+
+
 
     public Bitmap loadBitmap(String fileName)
     {
@@ -449,6 +465,60 @@ public abstract class Game extends Activity implements Runnable, View.OnKeyListe
         synchronized (stateChanges)
         {
             stateChanges.add(stateChanges.size(), State.Resumed);
+        }
+    }
+
+    public ArrayList<Statistic> getGameStatisticObject()
+    {
+        try
+        {
+            //fis = openFileInput(fileName);
+            fileReader = new ObjectInputStream(openFileInput(fileName));
+
+            //fileReader = new ObjectInputStream(new FileInputStream(statisticFile));
+
+
+            ArrayList<Statistic> statistics = (ArrayList<Statistic>) fileReader.readObject();
+            fileReader.close();
+            return statistics;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            throw new NoSuchElementException("Could not read from the file : " + fileName + " Properly cause ObjectReader is = " + fileReader + "AND I want this " + e.toString());
+        }
+    }
+
+    public void writeGameStatisticObject(List<Statistic> statisticsList)
+    {
+        try
+        {
+            //fileWriter = new ObjectOutputStream(new FileOutputStream(statisticFile));
+            fileWriter = new ObjectOutputStream(openFileOutput(fileName, Context.MODE_ENABLE_WRITE_AHEAD_LOGGING));
+
+            fileWriter.writeObject(statisticsList);
+            fileWriter.close();
+        }
+        catch (Exception e)
+        {
+            throw new NoSuchElementException("Could not write to the file : " + fileName );
+        }
+    }
+
+    public boolean isMuted()
+    {
+        return isMuted;
+    }
+
+    public void toggleMuted()
+    {
+        if (isMuted)
+        {
+            isMuted = false;
+        }
+        else
+        {
+            isMuted = true;
         }
     }
 
