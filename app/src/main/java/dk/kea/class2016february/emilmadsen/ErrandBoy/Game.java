@@ -138,11 +138,12 @@ public abstract class Game extends Activity implements Runnable, View.OnKeyListe
         return font;
     }
 
-    public void drawText(Typeface font, String text, int positionX, int positionY, int color, int size)
+    public void drawText(Typeface font, String text, int positionX, int positionY, int color, int size, int transparency)
     {
         paint.setTypeface(font);
         paint.setTextSize(size);
         paint.setColor(color);
+        paint.setAlpha(transparency);
         canvas.drawText(text,positionX,positionY+size, paint);
     }
 

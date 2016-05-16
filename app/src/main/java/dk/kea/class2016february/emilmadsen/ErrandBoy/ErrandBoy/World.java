@@ -18,7 +18,8 @@ public class World
     private Sound wallImpactSound, carImpactSound;
     float soundReset = 0;
     float timeCounter = 0.1f, timeAlive = 0;
-    int coins = 0;
+    int coins = 0, niveau = 0;
+    boolean niveauChanged = false;
 
     public World(Game game)
     {
@@ -58,7 +59,8 @@ public class World
             timeAlive = timeAlive + 0.1f;
             timeCounter = 0.1f;
         }
-
+        niveauChanged = false;
+        if(niveau == 0) {  incrementNiveau();}
         spawnCars();
         deSpawnCars();
 
@@ -73,6 +75,17 @@ public class World
     {
         respawnCoin();
         coins++;
+        //TODO if Coins modulus 10 == 0 call increment Niveau
+    }
+
+    private void incrementNiveau()
+    {
+        if (niveau < 3)
+        {
+            niveau++;
+            niveauChanged = true;
+            System.out.println("***********INCREMETING NIVEAU**************" );
+        }
     }
 
     private void respawnCoin()
@@ -117,7 +130,10 @@ public class World
                 rect1Y + rect1Height > rect2Y)
         {
             //TODO Gameover state + collision sound;
-            carImpactSound.play(0.8f);
+           if (!game.isMuted())
+           {
+               carImpactSound.play(0.5f);
+           }
         }
     }
 

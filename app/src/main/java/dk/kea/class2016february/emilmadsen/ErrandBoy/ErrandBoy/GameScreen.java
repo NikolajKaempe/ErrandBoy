@@ -1,15 +1,13 @@
 package dk.kea.class2016february.emilmadsen.ErrandBoy.ErrandBoy;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 
 import java.util.List;
 
-import dk.kea.class2016february.emilmadsen.ErrandBoy.BitmapAction;
-import dk.kea.class2016february.emilmadsen.ErrandBoy.BitmapCoordinates;
 import dk.kea.class2016february.emilmadsen.ErrandBoy.Game;
 import dk.kea.class2016february.emilmadsen.ErrandBoy.Music;
 import dk.kea.class2016february.emilmadsen.ErrandBoy.Screen;
-import dk.kea.class2016february.emilmadsen.ErrandBoy.Sound;
 import dk.kea.class2016february.emilmadsen.ErrandBoy.TouchEvent;
 
 /**
@@ -21,8 +19,10 @@ public class GameScreen extends Screen
     private Bitmap background, soundIcon;
     private World world;
     private WorldRenderer renderer;
-    private int touchX, touchY;
     private Music music;
+    private int touchX, touchY, transparency = 5;
+    private float levelTimeReset = 0.05f, levelTimeCount = levelTimeReset;
+    private boolean drawnNiveau = false, niveauFadeIn = true;
 
     public GameScreen(Game game, MainMenuScreen mainMenuScreen)
     {
@@ -105,6 +105,32 @@ public class GameScreen extends Screen
         game.drawBitmap(background, 0, 0);
 
         renderer.render();
+
+        if (world.niveau == 1 && world.niveauChanged ||
+                world.niveau == 2 && world.niveauChanged  ||
+                world.niveau == 3 && world.niveauChanged )// TODO Change Coins and niveau
+        {
+            if (!drawnNiveau ){ drawnNiveau = true;}
+        }
+
+        if (drawnNiveau)
+        {
+            levelTimeCount = levelTimeCount-deltaTime;
+            if (levelTimeCount <= 0)
+            {
+                levelTimeCount = levelTimeReset;
+                if (niveauFadeIn)
+                {
+                    transparency = transparency + 10;
+                    if (transparency == 255){ niveauFadeIn = false; }
+                }else
+                {
+                    transparency = transparency -10;
+                    if (transparency == 5) { drawnNiveau = false;niveauFadeIn = true; }
+                }
+            }
+            game.drawText(game.loadFont("game-font.ttf"),"Nivuea " + world.niveau,50,20, Color.BLACK,100,transparency);
+        }
 
         if (game.isMuted())
         {
