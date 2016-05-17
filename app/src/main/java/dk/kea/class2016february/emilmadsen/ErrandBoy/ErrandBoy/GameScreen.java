@@ -129,7 +129,7 @@ public class GameScreen extends Screen
                     if (transparency == 5) { drawnNiveau = false;niveauFadeIn = true; }
                 }
             }
-            game.drawText(game.loadFont("game-font.ttf"),"Nivuea " + world.niveau,50,20, Color.BLACK,100,transparency);
+            game.drawText(game.loadFont("game-font.ttf"),"Niveau " + world.niveau,50,20, Color.BLACK,100,transparency);
         }
 
         if (game.isMuted())

@@ -37,6 +37,34 @@ public class Car
         group2Right.add(new BitmapCoordinates(108,113,97,45));
         group2Right.add(new BitmapCoordinates(11,160,97,45));
         group2Right.add(new BitmapCoordinates(108,161,97,45));
+
+        group3Right = new ArrayList<>();
+        group3Right.add(new BitmapCoordinates(388,67,98,43));
+        group3Right.add(new BitmapCoordinates(387,119,100,42));
+
+        group1Left = new ArrayList<>();
+        group1Left.add(new BitmapCoordinates(208,230,75,38));
+        group1Left.add(new BitmapCoordinates(210,274,75,38));
+        group1Left.add(new BitmapCoordinates(210,319,75,38));
+        group1Left.add(new BitmapCoordinates(211,363,75,38));
+        group1Left.add(new BitmapCoordinates(288,228,89,42));
+        group1Left.add(new BitmapCoordinates(289,275,89,43));
+        group1Left.add(new BitmapCoordinates(289,322,89,43));
+        group1Left.add(new BitmapCoordinates(290,370,89,43));
+
+        group2Left = new ArrayList<>();
+        group2Left.add(new BitmapCoordinates(4,227,96,45));
+        group2Left.add(new BitmapCoordinates(105,226,97,45));
+        group2Left.add(new BitmapCoordinates(3,275,97,45));
+        group2Left.add(new BitmapCoordinates(106,272,97,45));
+        group2Left.add(new BitmapCoordinates(3,321,97,45));
+        group2Left.add(new BitmapCoordinates(107,319,96,45));
+        group2Left.add(new BitmapCoordinates(3,369,97,45));
+        group2Left.add(new BitmapCoordinates(106,367,97,45));
+
+        group3Left = new ArrayList<>();
+        group3Left.add(new BitmapCoordinates(388,276,99,43));
+        group3Left.add(new BitmapCoordinates(387,327,101,43));
     }
 
     public Car(int type, int niveau)
@@ -99,10 +127,10 @@ public class Car
             // Second "Highest" Lane -- Driving Left
             if (niveau == 1)
             {
-                currentBitmap = group1Right.get(rand);
+                currentBitmap = group1Left.get(rand);
             }else if (niveau == 2)
             {
-                currentBitmap = group2Right.get(rand); //TODO CAHNGE TO LEFT
+                currentBitmap = group2Left.get(rand);
             }
             else
             {
@@ -117,10 +145,10 @@ public class Car
             // "Highest" Lane -- Driving Left
             if (niveau == 1)
             {
-                currentBitmap = group1Right.get(rand);
+                currentBitmap = group1Left.get(rand);
             }else if (niveau == 2)
             {
-                currentBitmap = group2Right.get(rand); //TODO CAHNGE TO LEFT
+                currentBitmap = group2Left.get(rand);
             }
             else
             {
