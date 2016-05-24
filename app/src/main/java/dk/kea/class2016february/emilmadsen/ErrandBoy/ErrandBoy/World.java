@@ -20,7 +20,7 @@ public class World
     float soundReset = 0;
     float timeCounter = 0.1f, timeAlive = 0;
     int coins = 0, niveau = 0;
-    boolean niveauChanged = false;
+    boolean niveauChanged = false, gameOver = false;
 
     public World(Game game)
     {

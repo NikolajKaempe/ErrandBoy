@@ -3,6 +3,7 @@ package dk.kea.class2016february.emilmadsen.ErrandBoy.ErrandBoy;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dk.kea.class2016february.emilmadsen.ErrandBoy.Game;
@@ -10,9 +11,6 @@ import dk.kea.class2016february.emilmadsen.ErrandBoy.Music;
 import dk.kea.class2016february.emilmadsen.ErrandBoy.Screen;
 import dk.kea.class2016february.emilmadsen.ErrandBoy.TouchEvent;
 
-/**
- * Created by Nikol_000 on 25-04-2016.
- */
 public class GameScreen extends Screen
 {
     private MainMenuScreen mainMenuScreen; //TODO to use when gameOver to not make a new MainMenuScreen
@@ -20,10 +18,18 @@ public class GameScreen extends Screen
     private World world;
     private WorldRenderer renderer;
     private Music music;
+    private List<Statistic> statistics = new ArrayList<>();
+    private GameState gameState = GameState.Running;
     private int touchX, touchY, transparency = 5;
     private float levelTimeReset = 0.05f, levelTimeCount = levelTimeReset;
-    private boolean drawnNiveau = false, niveauFadeIn = true;
+    private boolean drawNiveau = false, niveauFadeIn = true;
 
+    enum GameState
+    {
+        Running,
+        Paused,
+        gameOver
+    }
     public GameScreen(Game game, MainMenuScreen mainMenuScreen)
     {
         super(game);
@@ -34,54 +40,40 @@ public class GameScreen extends Screen
         soundIcon = game.loadBitmap("soundIcon.png");
         music = game.loadMusic("mainmenu.mp3");
         music.setLooping(true);
+        statistics.add(new Statistic("Emil", 25, 50.5f));
+        statistics.add(new Statistic("Nikolaj",55,100.9f));
     }
 
     @Override
     public void update(float deltaTime)
     {
-        if (!music.isPlaying() && !game.isMuted())
-        {
-            music.play();
-        }
-
         touchX =-1;
         touchY = -1;
 
-        if (game.isTouchDown(0)){
-            touchX = game.getTouchX(0);
-            touchY = game.getTouchY(0);
-
-            // Move Left
-            if (touchX < 70 && touchY < 400-70 && touchY > 70
-                    && world.errandBoy.movingState == MovingStates.Still )
-            {
-                world.errandBoy.move(MovingStates.Left);
-            }
-            //Move Right
-            else if (touchX > 710-70 && touchY < 400-70 && touchY > 70
-                    && world.errandBoy.movingState == MovingStates.Still)
-            {
-                world.errandBoy.move(MovingStates.Right);
-            }
-            //Move Up
-            else if (touchX < 710-70 && touchX > 70 && touchY < 70
-                    && world.errandBoy.movingState == MovingStates.Still)
-            {
-                world.errandBoy.move(MovingStates.Up);
-            }
-            //Move Down
-            else if (touchX < 710-70 && touchX > 70 && touchY > 400-70 &&
-                    world.errandBoy.movingState == MovingStates.Still)
-            {
-                world.errandBoy.move(MovingStates.Down);
-            }
+        if (gameState == GameState.Paused && isTouchReleased())
+        {
+            gameState = GameState.Running;
+        }
+        if (gameState == GameState.gameOver && isTouchReleased())
+        {
+            if (!game.isMuted()) { music.stop(); }
+            game.setScreen(mainMenuScreen);
         }
 
-        List<TouchEvent> events = game.getTouchEvents();
-        int stop = events.size();
-        for (int i = 0; i < stop; i++)
+        if (gameState == GameState.Running)
         {
-            if(events.get(i).type == TouchEvent.TouchEventType.Up)
+            if (!music.isPlaying() && !game.isMuted())
+            {
+                music.play();
+            }
+
+            if (game.isTouchDown(0) && world.errandBoy.movingState == MovingStates.Still){
+                touchX = game.getTouchX(0);
+                touchY = game.getTouchY(0);
+                tryMove();
+            }
+
+            if (isTouchReleased())
             {
                 if (game.getTouchX(0) >= 720-100 && game.getTouchY(0) <= 70)
                 {
@@ -98,40 +90,30 @@ public class GameScreen extends Screen
                     }
                 }
             }
+            world.update(deltaTime);
+
+            if (world.gameOver)
+            {
+                gameState = GameState.gameOver;
+                statistics.add(new Statistic("PLAYER NAME",world.coins,world.timeAlive));
+                world.gameOver = false;
+            }
+        }
+        if (gameState == GameState.Paused)
+        {
+            //TODO WHAT TO DO WHEN PAUSED??
+        }
+        if (gameState == GameState.gameOver)
+        {
+            //TODO WHAT TO DO WHEN GAME OVER??
         }
 
-        world.update(deltaTime);
-
+        //TODO ALWAYS DRAW Following??
         game.drawBitmap(background, 0, 0);
-
         renderer.render();
 
-        if (world.niveau == 1 && world.niveauChanged ||
-                world.niveau == 2 && world.niveauChanged  ||
-                world.niveau == 3 && world.niveauChanged )// TODO Change Coins and niveau
-        {
-            if (!drawnNiveau ){ drawnNiveau = true;}
-        }
-
-        if (drawnNiveau)
-        {
-            levelTimeCount = levelTimeCount-deltaTime;
-            if (levelTimeCount <= 0)
-            {
-                levelTimeCount = levelTimeReset;
-                if (niveauFadeIn)
-                {
-                    transparency = transparency + 10;
-                    if (transparency == 255){ niveauFadeIn = false; }
-                }else
-                {
-                    transparency = transparency -10;
-                    if (transparency == 5) { drawnNiveau = false;niveauFadeIn = true; }
-                }
-            }
-            game.drawText(game.loadFont("game-font.ttf"),"Niveau " + world.niveau,50,20, Color.BLACK,100,transparency);
-        }
-
+        game.drawText(game.loadFont("game-font.ttf"), "Coins: " + world.coins, 30, 10, Color.BLACK, 50, 255);
+        drawNiveauIfChanged(deltaTime);
         if (game.isMuted())
         {
             game.drawBitmap(soundIcon,720-80,1,0,43,58,43);
@@ -146,13 +128,20 @@ public class GameScreen extends Screen
     @Override
     public void pause()
     {
-
+        if (gameState == GameState.Running)
+        {
+            if (!game.isMuted()) {music.stop();}
+            gameState = GameState.Paused;
+        }
     }
 
     @Override
     public void resume()
     {
-
+        if (gameState == GameState.Paused)
+        {
+            gameState = GameState.Running;
+        }
     }
 
     @Override
@@ -161,5 +150,130 @@ public class GameScreen extends Screen
 
     }
 
+    private void tryMove()
+    {
+        float fixedX = world.errandBoy.x + (world.errandBoy.currentBitmap.width / 2), // Middle of ErrandBoy picture
+                fixedY = world.errandBoy.y + (world.errandBoy.currentBitmap.height / 2); // Middle of ErrandBoy picture
 
+        if (touchY <= fixedY )// Touch is over ErrandBoy
+        {
+            if (touchX <= fixedX) // Touch is Left for ErrandBoy
+            {
+                if (fixedX - touchX <= fixedY - touchY) // TouchY distance is greater than TouchX - aka move up
+                {
+                    world.errandBoy.move(MovingStates.Up);
+                }
+                else // TouchX is grater distance from ErrandBoy than TouchY - aka move left
+                {
+                    world.errandBoy.move(MovingStates.Left);
+                }
+            }
+            else // Touch is Right for ErrandBoy
+            {
+                if (touchX - fixedX <= fixedY - touchY ) // TouchY distance is greater than TouchX - aka move up
+                {
+                    world.errandBoy.move(MovingStates.Up);
+                }
+                else // TouchX is grater distance from ErrandBoy than TouchY - aka move right
+                {
+                    world.errandBoy.move(MovingStates.Right);
+                }
+            }
+        }
+        else // Touch is under ErrandBoy
+        {
+            if (touchX <= fixedX) // Touch is Left for ErrandBoy
+            {
+                if (fixedX - touchX <= touchY - fixedY) // TouchY distance is greater than TouchX - aka move down
+                {
+                    world.errandBoy.move(MovingStates.Down);
+                }
+                else // TouchX is grater distance from ErrandBoy than TouchY - aka move left
+                {
+                    world.errandBoy.move(MovingStates.Left);
+                }
+            }
+            else // Touch is Right for ErrandBoy
+            {
+                if (touchX - fixedX <= touchY - fixedY ) // TouchY distance is greater than TouchX - aka move down
+                {
+                    world.errandBoy.move(MovingStates.Down);
+                }
+                else // TouchX is grater distance from ErrandBoy than TouchY - aka move right
+                {
+                    world.errandBoy.move(MovingStates.Right);
+                }
+            }
+        }
+
+        /* //TODO OLD CODE DELETE WHEN OTHER WORKS NICE
+        // Move Left
+        if (touchX < 70 && touchY < 400-70 && touchY > 70
+                && world.errandBoy.movingState == MovingStates.Still )
+        {
+            world.errandBoy.move(MovingStates.Left);
+        }
+        //Move Right
+        else if (touchX > 710-70 && touchY < 400-70 && touchY > 70
+                && world.errandBoy.movingState == MovingStates.Still)
+        {
+            world.errandBoy.move(MovingStates.Right);
+        }
+        //Move Up
+        else if (touchX < 710-70 && touchX > 70 && touchY < 70
+                && world.errandBoy.movingState == MovingStates.Still)
+        {
+            world.errandBoy.move(MovingStates.Up);
+        }
+        //Move Down
+        else if (touchX < 710-70 && touchX > 70 && touchY > 400-70 &&
+                world.errandBoy.movingState == MovingStates.Still)
+        {
+            world.errandBoy.move(MovingStates.Down);
+        }
+        */
+    }
+
+    private void drawNiveauIfChanged(float deltaTime)
+    {
+        if (world.niveau == 1 && world.niveauChanged ||
+                world.niveau == 2 && world.niveauChanged  ||
+                world.niveau == 3 && world.niveauChanged )// TODO Change Coins and niveau
+        {
+            if (!drawNiveau){ drawNiveau = true;}
+        }
+
+        if (drawNiveau)
+        {
+            levelTimeCount = levelTimeCount-deltaTime;
+            if (levelTimeCount <= 0)
+            {
+                levelTimeCount = levelTimeReset;
+                if (niveauFadeIn)
+                {
+                    transparency = transparency + 10;
+                    if (transparency == 255){ niveauFadeIn = false; }
+                }else
+                {
+                    transparency = transparency -10;
+                    if (transparency == 5) { drawNiveau = false;niveauFadeIn = true; }
+                }
+            }
+            game.drawText(game.loadFont("game-font.ttf"),"Niveau " + world.niveau,50,20, Color.BLACK,100,transparency);
+        }
+    }
+
+    private boolean isTouchReleased()
+    {
+        List<TouchEvent> events = game.getTouchEvents();
+        int stop = events.size();
+        for (int i = 0; i < stop; i++)
+        {
+            if(events.get(i).type == TouchEvent.TouchEventType.Up)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
