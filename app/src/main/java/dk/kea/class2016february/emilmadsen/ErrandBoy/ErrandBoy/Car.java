@@ -1,7 +1,5 @@
 package dk.kea.class2016february.emilmadsen.ErrandBoy.ErrandBoy;
 
-import android.graphics.Bitmap;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +12,8 @@ public class Car
 {
     BitmapCoordinates currentBitmap;
     int type;
-    float x, y, velocity;
+    float x, y, xVelocity;
+    static final float VELOCITY = 1f;
     double timeReset = 0.02, timeCount = timeReset;
     List<BitmapCoordinates> group1Left, group1Right, group2Left, group2Right, group3Left, group3Right;
     {
@@ -102,7 +101,7 @@ public class Car
 
             x = 0 - currentBitmap.width;
             y = 275 + ((50-currentBitmap.height+1) / 2);
-            velocity = 1.5f;
+            xVelocity = VELOCITY * (1 + (niveau * 0.1f));
         }
         else if (type == 2)
         {
@@ -120,7 +119,7 @@ public class Car
             }
             x = 0 - currentBitmap.width;
             y = 225 + ((50-currentBitmap.height+1) / 2);
-            velocity = 3f;
+            xVelocity = (2*VELOCITY) * (1 + (niveau * 0.1f));
         }
         else if (type == 3)
         {
@@ -138,7 +137,7 @@ public class Car
             }
             x = World.MAX_X;
             y = 125 + ((50-currentBitmap.height+1) / 2);
-            velocity = -3f;
+            xVelocity = (-2*VELOCITY )* (1 + (niveau * 0.1f));
         }
         else if (type == 4)
         {
@@ -156,7 +155,7 @@ public class Car
             }
             x = World.MAX_X;
             y = 75 + ((50-currentBitmap.height+1) / 2);
-            velocity = -1.5f;
+            xVelocity = -VELOCITY * (1 + (niveau * 0.1f));
         }
     }
 
@@ -165,7 +164,7 @@ public class Car
         timeCount = timeCount - deltaTime;
         if (timeCount <= 0)
         {
-            x = x + velocity;
+            x = x + xVelocity;
             timeCount = timeReset;
         }
     }

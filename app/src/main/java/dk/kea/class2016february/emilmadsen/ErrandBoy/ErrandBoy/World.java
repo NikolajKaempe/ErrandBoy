@@ -84,7 +84,7 @@ public class World
             coin.respawnCoin(coins % 2);
             coins++;
             //TODO PLAY COIN SOUND
-            if (coins % 10 == 0)
+            if (coins % 3 == 0)
             {
                 incrementNiveau();
             }
@@ -174,25 +174,25 @@ public class World
         if (errandBoy.x + errandBoy.currentBitmap.width > MAX_X)
         {
             errandBoy.x = MAX_X - errandBoy.currentBitmap.width;
-            errandBoy.currentBitmap = errandBoy.moveLeft.getBitmap(1);
+            errandBoy.currentBitmap = errandBoy.moveLeft.getBitmap(0);
         }
         // Left Wall
         else if (errandBoy.x < 0)
         {
             errandBoy.x = 0;
-            errandBoy.currentBitmap = errandBoy.moveRight.getBitmap(1);
+            errandBoy.currentBitmap = errandBoy.moveRight.getBitmap(0);
         }
         // Lower Wall
         else if (errandBoy.y + errandBoy.currentBitmap.height > MAX_Y)
         {
             errandBoy.y = MAX_Y - errandBoy.currentBitmap.height;
-            errandBoy.currentBitmap = errandBoy.moveUp.getBitmap(1);
+            errandBoy.currentBitmap = errandBoy.moveUp.getBitmap(0);
         }
         //Upper wall
         else if (errandBoy.y < MIN_Y)
         {
             errandBoy.y = MIN_Y;
-            errandBoy.currentBitmap = errandBoy.moveDown.getBitmap(1);
+            errandBoy.currentBitmap = errandBoy.moveDown.getBitmap(0);
         }
         else { return; }
 
@@ -204,13 +204,13 @@ public class World
         }
     }
 
-    private void spawnCars()
+    private void spawnCars() //could include deltaTime perhaps?
     {
         Car curCar;
         if (lane1.size() > 0)
         {
-            curCar = lane1.get(lane1.size()-1);
-            if (curCar.x > MIN_X + (2 * errandBoy.currentBitmap.width))
+            curCar = lane1.get(lane1.size()-1); // last added car
+            if (curCar.x > MIN_X + (3 * errandBoy.currentBitmap.width)) //makes min. distance between cars
             {
                 spawnCar(1,lane1);
             }
@@ -221,7 +221,7 @@ public class World
         if (lane2.size() > 0)
         {
             curCar = lane2.get(lane2.size()-1);
-            if (curCar.x > MIN_X + (2 * errandBoy.currentBitmap.width))
+            if (curCar.x > MIN_X + (3 * errandBoy.currentBitmap.width))
             {
                 spawnCar(2,lane2);
             }
@@ -232,7 +232,7 @@ public class World
         if (lane3.size() > 0)
         {
             curCar = lane3.get(lane3.size()-1);
-            if (curCar.x + curCar.currentBitmap.width < MAX_X - (2* errandBoy.currentBitmap.width))
+            if (curCar.x + curCar.currentBitmap.width < MAX_X - (3 * errandBoy.currentBitmap.width))
             {
                 spawnCar(3,lane3);
             }
@@ -243,7 +243,7 @@ public class World
         if (lane4.size() > 0)
         {
             curCar = lane4.get(lane4.size()-1);
-            if (curCar.x + curCar.currentBitmap.width < MAX_X - (2* errandBoy.currentBitmap.width))
+            if (curCar.x + curCar.currentBitmap.width < MAX_X - (3 * errandBoy.currentBitmap.width))
             {
                 spawnCar(4,lane4);
             }
@@ -255,10 +255,10 @@ public class World
 
     private void spawnCar(int carType, List<Car> lane)
     {
-        int spawnValue = 5;
+        int spawnValue = 10;
         int spawnRate;
 
-        if (carType == 2 || carType == 3)
+        if (carType == 2 || carType == 3) // more cars in the fast lanes
         {
             spawnRate = 750;
         }
