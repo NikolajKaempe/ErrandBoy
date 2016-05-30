@@ -107,11 +107,8 @@ public class World
             if(collideRects(car.x, car.y, car.currentBitmap.width, car.currentBitmap.height,
                     errandBoy.x+3, errandBoy.y+3, errandBoy.currentBitmap.width-6, errandBoy.currentBitmap.height-6))
             {
-                if (!game.isMuted())
-                {
-                    carImpactSound.play(0.5f);
-                    gameOver = true;
-                }
+                gameOver = true;
+                if (!game.isMuted()) { carImpactSound.play(1); }
             }
         }
         for (Car car : lane2)
@@ -119,11 +116,8 @@ public class World
             if(collideRects(car.x, car.y, car.currentBitmap.width, car.currentBitmap.height,
                     errandBoy.x+3, errandBoy.y+3, errandBoy.currentBitmap.width-6, errandBoy.currentBitmap.height-6))
             {
-                if (!game.isMuted())
-                {
-                    carImpactSound.play(0.5f);
-                    gameOver = true;
-                }
+                gameOver = true;
+                if (!game.isMuted()) { carImpactSound.play(1); }
             }
         }
         for (Car car : lane3)
@@ -131,11 +125,8 @@ public class World
             if (collideRects(car.x, car.y, car.currentBitmap.width, car.currentBitmap.height,
                     errandBoy.x+3, errandBoy.y+3, errandBoy.currentBitmap.width-6, errandBoy.currentBitmap.height-6))
             {
-                if (!game.isMuted())
-                {
-                    carImpactSound.play(0.5f);
-                    gameOver = true;
-                }
+                gameOver = true;
+                if (!game.isMuted()) { carImpactSound.play(1); }
             }
         }
         for (Car car : lane4)
@@ -143,11 +134,8 @@ public class World
             if (collideRects(car.x, car.y, car.currentBitmap.width, car.currentBitmap.height,
                     errandBoy.x+3, errandBoy.y+3, errandBoy.currentBitmap.width-6, errandBoy.currentBitmap.height-6))
             {
-                if (!game.isMuted())
-                {
-                    carImpactSound.play(0.5f);
-                    gameOver = true;
-                }
+                gameOver = true;
+                if (!game.isMuted()) { carImpactSound.play(1); }
             }
         }
 
