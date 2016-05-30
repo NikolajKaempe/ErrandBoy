@@ -39,7 +39,6 @@ public class MainMenuScreen extends Screen
         background = new ScrollingBackground(game.loadBitmap("mainMenuBackground.jpg"));
         readySound = game.loadSound("gameStart.mp3");
         boy = game.loadBitmap("backgroundBoy.png");
-        gameScreen = new GameScreen(game,this);
         recordScreen = new RecordScreen(game,this);
         soundIcon = game.loadBitmap("soundIcon.png");
 
@@ -87,6 +86,7 @@ public class MainMenuScreen extends Screen
                     {
                         readySound.play(0.7f);
                     }
+                    gameScreen = new GameScreen(game,this);
                     game.setScreen(gameScreen);
                 }
             }

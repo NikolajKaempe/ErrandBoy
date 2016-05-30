@@ -7,13 +7,12 @@ public class BitmapAction
 {
     BitmapCoordinates[] bitmap;
 
-    public BitmapAction(BitmapCoordinates[] bitmap)
-    {
-        this.bitmap = bitmap;
-    }
+    public BitmapAction(BitmapCoordinates[] bitmap) { this.bitmap = bitmap; }
 
     public BitmapCoordinates getBitmap(int i)
     {
         return bitmap[i];
     }
 }
+
+

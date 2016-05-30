@@ -107,10 +107,10 @@ public class World
             if(collideRects(car.x, car.y, car.currentBitmap.width, car.currentBitmap.height,
                     errandBoy.x+3, errandBoy.y+3, errandBoy.currentBitmap.width-6, errandBoy.currentBitmap.height-6))
             {
-                //TODO Gameover state + collision sound;
                 if (!game.isMuted())
                 {
                     carImpactSound.play(0.5f);
+                    gameOver = true;
                 }
             }
         }
@@ -119,10 +119,10 @@ public class World
             if(collideRects(car.x, car.y, car.currentBitmap.width, car.currentBitmap.height,
                     errandBoy.x+3, errandBoy.y+3, errandBoy.currentBitmap.width-6, errandBoy.currentBitmap.height-6))
             {
-                //TODO Gameover state + collision sound;
                 if (!game.isMuted())
                 {
                     carImpactSound.play(0.5f);
+                    gameOver = true;
                 }
             }
         }
@@ -131,10 +131,10 @@ public class World
             if (collideRects(car.x, car.y, car.currentBitmap.width, car.currentBitmap.height,
                     errandBoy.x+3, errandBoy.y+3, errandBoy.currentBitmap.width-6, errandBoy.currentBitmap.height-6))
             {
-                //TODO Gameover state + collision sound;
                 if (!game.isMuted())
                 {
                     carImpactSound.play(0.5f);
+                    gameOver = true;
                 }
             }
         }
@@ -143,10 +143,10 @@ public class World
             if (collideRects(car.x, car.y, car.currentBitmap.width, car.currentBitmap.height,
                     errandBoy.x+3, errandBoy.y+3, errandBoy.currentBitmap.width-6, errandBoy.currentBitmap.height-6))
             {
-                //TODO Gameover state + collision sound;
                 if (!game.isMuted())
                 {
                     carImpactSound.play(0.5f);
+                    gameOver = true;
                 }
             }
         }
@@ -156,7 +156,6 @@ public class World
     private boolean collideRects(float rect1X, float rect1Y, float rect1Width, float rect1Height,
                                  float rect2X, float rect2Y, float rect2Width, float rect2Height)
     {
-
         // Top and Bottom Collision
         if (rect1X < rect2X+rect2Width &&
                 rect1X + rect1Width > rect2X &&

@@ -19,7 +19,6 @@ public class ErrandBoy
     double timeReset = 0.05, timeCount = timeReset;
     static float VELOCITY = 16.66f;
 
-
     public ErrandBoy(Bitmap picture)
     {
         this.picture = picture;

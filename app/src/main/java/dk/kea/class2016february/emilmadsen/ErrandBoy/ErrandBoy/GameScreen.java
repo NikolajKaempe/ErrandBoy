@@ -21,7 +21,7 @@ public class GameScreen extends Screen
     private List<Statistic> statistics = new ArrayList<>();
     private GameState gameState = GameState.Running;
     private int touchX, touchY, transparency = 5;
-    private float levelTimeReset = 0.05f, levelTimeCount = levelTimeReset;
+    private float textTimeReset = 0.05f, textTimeCount = textTimeReset;
     private boolean drawNiveau = false, niveauFadeIn = true;
 
     enum GameState
@@ -56,8 +56,17 @@ public class GameScreen extends Screen
         }
         if (gameState == GameState.gameOver && isTouchReleased())
         {
-            if (!game.isMuted()) { music.stop(); }
-            game.setScreen(mainMenuScreen);
+            if (game.getTouchX(0) >= 100 && game.getTouchX(0) <= 620
+                    && game.getTouchY(0) >= 170 && game.getTouchY(0) <= 255)
+            {
+                game.setScreen(new GameScreen(game,mainMenuScreen));
+            }
+            if (game.getTouchX(0) >= 110 && game.getTouchX(0) <= 610
+                    && game.getTouchY(0) >= 150 && game.getTouchY(0) <= 230)
+            {
+                game.setScreen(mainMenuScreen);
+
+            }
         }
 
         if (gameState == GameState.Running)
@@ -99,14 +108,6 @@ public class GameScreen extends Screen
                 world.gameOver = false;
             }
         }
-        if (gameState == GameState.Paused)
-        {
-            //TODO WHAT TO DO WHEN PAUSED??
-        }
-        if (gameState == GameState.gameOver)
-        {
-            //TODO WHAT TO DO WHEN GAME OVER??
-        }
 
         //TODO ALWAYS DRAW Following??
         game.drawBitmap(background, 0, 0);
@@ -114,13 +115,18 @@ public class GameScreen extends Screen
 
         game.drawText(game.loadFont("game-font.ttf"), "Coins: " + world.coins, 30, 10, Color.BLACK, 50, 255);
         drawNiveauIfChanged(deltaTime);
-        if (game.isMuted())
+        drawMutedIcon();
+
+        if (gameState == GameState.Paused)
         {
-            game.drawBitmap(soundIcon,720-80,1,0,43,58,43);
+            //TODO WHAT TO DO WHEN PAUSED??
         }
-        else
+        if (gameState == GameState.gameOver)
         {
-            game.drawBitmap(soundIcon,720-80,1,0,0,58,43);
+            if (!game.isMuted()){ music.stop();}
+            game.drawText(game.loadFont("outlinePixelFont.ttf"),"Game Over",70,50, Color.BLACK,100,255);
+            game.drawText(game.loadFont("outlinePixelFont.ttf"),"Main Menu",120,150, Color.BLACK,70,255);
+            game.drawText(game.loadFont("outlinePixelFont.ttf"),"Play Again",110,205, Color.BLACK,70,255);
 
         }
     }
@@ -205,33 +211,6 @@ public class GameScreen extends Screen
                 }
             }
         }
-
-        /* //TODO OLD CODE DELETE WHEN OTHER WORKS NICE
-        // Move Left
-        if (touchX < 70 && touchY < 400-70 && touchY > 70
-                && world.errandBoy.movingState == MovingStates.Still )
-        {
-            world.errandBoy.move(MovingStates.Left);
-        }
-        //Move Right
-        else if (touchX > 710-70 && touchY < 400-70 && touchY > 70
-                && world.errandBoy.movingState == MovingStates.Still)
-        {
-            world.errandBoy.move(MovingStates.Right);
-        }
-        //Move Up
-        else if (touchX < 710-70 && touchX > 70 && touchY < 70
-                && world.errandBoy.movingState == MovingStates.Still)
-        {
-            world.errandBoy.move(MovingStates.Up);
-        }
-        //Move Down
-        else if (touchX < 710-70 && touchX > 70 && touchY > 400-70 &&
-                world.errandBoy.movingState == MovingStates.Still)
-        {
-            world.errandBoy.move(MovingStates.Down);
-        }
-        */
     }
 
     private void drawNiveauIfChanged(float deltaTime)
@@ -245,10 +224,10 @@ public class GameScreen extends Screen
 
         if (drawNiveau)
         {
-            levelTimeCount = levelTimeCount-deltaTime;
-            if (levelTimeCount <= 0)
+            textTimeCount = textTimeCount -deltaTime;
+            if (textTimeCount <= 0)
             {
-                levelTimeCount = levelTimeReset;
+                textTimeCount = textTimeReset;
                 if (niveauFadeIn)
                 {
                     transparency = transparency + 10;
@@ -275,5 +254,18 @@ public class GameScreen extends Screen
             }
         }
         return false;
+    }
+
+    private void drawMutedIcon()
+    {
+        if (game.isMuted())
+        {
+            game.drawBitmap(soundIcon,720-80,1,0,43,58,43);
+        }
+        else
+        {
+            game.drawBitmap(soundIcon,720-80,1,0,0,58,43);
+
+        }
     }
 }
