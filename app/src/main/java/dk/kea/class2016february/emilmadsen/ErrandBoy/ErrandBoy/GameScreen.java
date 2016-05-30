@@ -48,7 +48,8 @@ public class GameScreen extends Screen
     public void update(float deltaTime)
     {
         touchX =-1;
-        touchY = -1;
+        touchY =-1;
+        System.out.println("FFFFFFFFFPPPPPPPSSSSSSSS: " + game.getFrameRate());
 
         if (gameState == GameState.Paused && isTouchReleased())
         {
@@ -82,7 +83,7 @@ public class GameScreen extends Screen
                 tryMove();
             }
 
-            if (isTouchReleased())
+            if (isTouchReleased()) //Toggle mute
             {
                 if (game.getTouchX(0) >= 720-100 && game.getTouchY(0) <= 70)
                 {

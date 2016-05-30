@@ -138,7 +138,8 @@ public abstract class Game extends Activity implements Runnable, View.OnKeyListe
         return font;
     }
 
-    public void drawText(Typeface font, String text, int positionX, int positionY, int color, int size, int transparency)
+    public void drawText(Typeface font, String text, int positionX, int positionY,
+                         int color, int size, int transparency)
     {
         paint.setTypeface(font);
         paint.setTextSize(size);
@@ -231,7 +232,8 @@ public abstract class Game extends Activity implements Runnable, View.OnKeyListe
         if(canvas != null) canvas.drawBitmap(bitmap, x, y, null);
     }
 
-    public void drawBitmap(Bitmap  bitmap, int x, int y, int srcX, int srcY, int srcWidth, int srcHeight)
+    public void drawBitmap(Bitmap  bitmap, int x, int y, int srcX, int srcY,
+                           int srcWidth, int srcHeight)
     {
         if(canvas == null) return;
         src.left = srcX;

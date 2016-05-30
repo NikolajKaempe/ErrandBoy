@@ -25,12 +25,12 @@ public class MainMenuScreen extends Screen
     private Sound readySound;
     private Bitmap boy, soundIcon;
     private BitmapAction runningBoy;
-    private  ScrollingBackground background;
+    private ScrollingBackground background;
     private int actionCounter = 0;
     private float resetTime = 0.05f;
     private float textCounter = 0.4f;
     private boolean drawText = true;
-    private int xTest = 50;
+    private int boyX = 50;
 
     public MainMenuScreen(Game game)
     {
@@ -102,8 +102,8 @@ public class MainMenuScreen extends Screen
                 actionCounter = 0;
             }
         }
-        if(xTest > 700) xTest = 0;
-        xTest++;
+        if(boyX > 700) boyX = 0;
+        boyX++;
 
         background.move(deltaTime);
 
@@ -129,7 +129,7 @@ public class MainMenuScreen extends Screen
                 cb.srcX,cb.srcY,cb.width,cb.height);
 
         BitmapCoordinates bc = runningBoy.getBitmap(actionCounter);
-        game.drawBitmap(boy, xTest - (bc.width / 2), 300, bc.srcX, bc.srcY, bc.width, bc.height);
+        game.drawBitmap(boy, boyX - (bc.width / 2), 300, bc.srcX, bc.srcY, bc.width, bc.height);
 
         if (drawText)
         {
