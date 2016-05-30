@@ -16,7 +16,7 @@ public class World
     ErrandBoy errandBoy;
     Coin coin;
     List<Car> lane1,lane2,lane3,lane4;
-    private Sound wallImpactSound, carImpactSound;
+    private Sound wallImpactSound, carImpactSound, coinSound;
     float soundReset = 0;
     float timeCounter = 0.1f, timeAlive = 0;
     int coins = 0, niveau = 0;
@@ -33,6 +33,7 @@ public class World
         lane4 = new ArrayList<>();
         wallImpactSound = game.loadSound("impactWall.wav");
         carImpactSound = game.loadSound("explosion.ogg");
+        coinSound = game.loadSound("coin.wav");
         coin.respawnCoin(1);
     }
 
@@ -83,7 +84,7 @@ public class World
         {
             coin.respawnCoin(coins % 2);
             coins++;
-            //TODO PLAY COIN SOUND
+            if (!game.isMuted()) { coinSound.play(1); }
             if (coins % 3 == 0)
             {
                 incrementNiveau();
@@ -293,6 +294,5 @@ public class World
                 lane4.remove(0);
             }
         }
-
     }
 }

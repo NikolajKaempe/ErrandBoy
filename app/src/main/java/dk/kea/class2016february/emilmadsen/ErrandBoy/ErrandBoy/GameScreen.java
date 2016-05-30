@@ -38,7 +38,7 @@ public class GameScreen extends Screen
         this.mainMenuScreen = mainMenuScreen;
         background = game.loadBitmap("background.png");
         soundIcon = game.loadBitmap("soundIcon.png");
-        music = game.loadMusic("mainmenu.mp3");
+        music = game.loadMusic("game.mp3");
         music.setLooping(true);
         statistics.add(new Statistic("Emil", 25, 50.5f));
         statistics.add(new Statistic("Nikolaj",55,100.9f));
@@ -58,12 +58,12 @@ public class GameScreen extends Screen
         if (gameState == GameState.gameOver && isTouchReleased())
         {
             if (game.getTouchX(0) >= 100 && game.getTouchX(0) <= 620
-                    && game.getTouchY(0) >= 170 && game.getTouchY(0) <= 255)
+                    && game.getTouchY(0) >= 205 && game.getTouchY(0) <= 275)
             {
                 game.setScreen(new GameScreen(game,mainMenuScreen));
             }
             if (game.getTouchX(0) >= 110 && game.getTouchX(0) <= 610
-                    && game.getTouchY(0) >= 150 && game.getTouchY(0) <= 230)
+                    && game.getTouchY(0) >= 130 && game.getTouchY(0) <= 200)
             {
                 game.setScreen(mainMenuScreen);
 
@@ -110,7 +110,6 @@ public class GameScreen extends Screen
             }
         }
 
-        //TODO ALWAYS DRAW Following??
         game.drawBitmap(background, 0, 0);
         renderer.render();
 
