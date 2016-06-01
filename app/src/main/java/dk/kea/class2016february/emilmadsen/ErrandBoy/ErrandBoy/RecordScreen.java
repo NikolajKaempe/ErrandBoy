@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import dk.kea.class2016february.emilmadsen.ErrandBoy.Game;
 import dk.kea.class2016february.emilmadsen.ErrandBoy.Screen;
 
-/**
- * Created by Nikol_000 on 25-04-2016.
- */
 public class RecordScreen extends Screen
 {
     private MainMenuScreen mainMenuScreen;

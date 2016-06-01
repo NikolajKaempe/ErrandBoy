@@ -5,9 +5,6 @@ import java.util.List;
 
 import dk.kea.class2016february.emilmadsen.ErrandBoy.BitmapCoordinates;
 
-/**
- * Created by Nikol_000 on 30-04-2016.
- */
 public class Car
 {
     BitmapCoordinates currentBitmap;

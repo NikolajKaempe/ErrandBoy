@@ -1,8 +1,5 @@
 package dk.kea.class2016february.emilmadsen.ErrandBoy;
 
-/**
- * Created by Emil on 07-03-2016.
- */
 public class MyKeyEvent
 {
     public enum KeyEventType

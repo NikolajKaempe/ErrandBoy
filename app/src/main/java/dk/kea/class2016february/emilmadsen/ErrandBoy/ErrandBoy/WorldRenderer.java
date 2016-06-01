@@ -4,9 +4,6 @@ import android.graphics.Bitmap;
 
 import dk.kea.class2016february.emilmadsen.ErrandBoy.Game;
 
-/**
- * Created by Nikol_000 on 28-04-2016.
- */
 public class WorldRenderer
 {
     World world;
