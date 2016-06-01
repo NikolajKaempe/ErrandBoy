@@ -13,9 +13,6 @@ import dk.kea.class2016february.emilmadsen.ErrandBoy.Game;
 import dk.kea.class2016february.emilmadsen.ErrandBoy.Sound;
 import dk.kea.class2016february.emilmadsen.ErrandBoy.TouchEvent;
 
-/**
- * Created by Nikol_000 on 25-04-2016.
- */
 public class MainMenuScreen extends Screen
 {
 

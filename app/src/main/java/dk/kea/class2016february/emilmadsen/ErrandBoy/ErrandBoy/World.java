@@ -6,9 +6,6 @@ import java.util.List;
 import dk.kea.class2016february.emilmadsen.ErrandBoy.Game;
 import dk.kea.class2016february.emilmadsen.ErrandBoy.Sound;
 
-/**
- * Created by Nikol_000 on 28-04-2016.
- */
 public class World
 {
     private Game game;

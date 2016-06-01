@@ -4,9 +4,6 @@ import android.graphics.Bitmap;
 
 import dk.kea.class2016february.emilmadsen.ErrandBoy.BitmapCoordinates;
 
-/**
- * Created by Nikol_000 on 09-05-2016.
- */
 public class ScrollingBackground
 {
 

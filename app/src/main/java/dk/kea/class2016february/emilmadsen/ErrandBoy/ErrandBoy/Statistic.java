@@ -2,9 +2,6 @@ package dk.kea.class2016february.emilmadsen.ErrandBoy.ErrandBoy;
 
 import java.io.Serializable;
 
-/**
- * Created by Nikol_000 on 11-05-2016.
- */
 public class Statistic implements Serializable
 {
     private String name;
