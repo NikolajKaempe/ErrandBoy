@@ -133,7 +133,9 @@ public class MainMenuScreen extends Screen
 
         if (drawText)
         {
-            game.drawText(game.loadFont("outlinePixelFont.ttf"),"TAP TO START",70,50, Color.BLACK,75,200);
+//            game.drawText(game.loadFont("outlinePixelFont.ttf"),"TAP TO START",70,50, Color.WHITE,75,200,true);
+            game.drawText(game.loadFont("game-font.ttf"),"TAP TO START",160,50, Color.WHITE,100,200,true);
+
         }
 
         if (game.isMuted())

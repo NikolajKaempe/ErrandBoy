@@ -48,7 +48,6 @@ public class ScrollingBackground
                 {
                     picture1.srcX = x;
                     picture1.width = bitmap.getWidth() - x; // MAX_X to show first error (AND ONLY!!)
-
                     picture2.width = MAX_X - picture1.width;
                 }
             }
@@ -56,7 +55,6 @@ public class ScrollingBackground
             {
                 picture1.srcX = x;
             }
-
         }
     }
 }

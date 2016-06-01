@@ -58,12 +58,12 @@ public class GameScreen extends Screen
         if (gameState == GameState.gameOver && isTouchReleased())
         {
             if (game.getTouchX(0) >= 100 && game.getTouchX(0) <= 620
-                    && game.getTouchY(0) >= 205 && game.getTouchY(0) <= 275)
+                    && game.getTouchY(0) >= 226 && game.getTouchY(0) <= 280)
             {
                 game.setScreen(new GameScreen(game,mainMenuScreen));
             }
             if (game.getTouchX(0) >= 110 && game.getTouchX(0) <= 610
-                    && game.getTouchY(0) >= 130 && game.getTouchY(0) <= 200)
+                    && game.getTouchY(0) >= 170 && game.getTouchY(0) <= 225)
             {
                 game.setScreen(mainMenuScreen);
 
@@ -113,7 +113,7 @@ public class GameScreen extends Screen
         game.drawBitmap(background, 0, 0);
         renderer.render();
 
-        game.drawText(game.loadFont("game-font.ttf"), "Coins: " + world.coins, 30, 10, Color.BLACK, 50, 255);
+        game.drawText(game.loadFont("game-font.ttf"), "Coins: " + world.coins, 30, 10, Color.WHITE, 50, 255,true);
         drawNiveauIfChanged(deltaTime);
         drawMutedIcon();
 
@@ -124,9 +124,9 @@ public class GameScreen extends Screen
         if (gameState == GameState.gameOver)
         {
             if (!game.isMuted()){ music.stop();}
-            game.drawText(game.loadFont("outlinePixelFont.ttf"),"Game Over",70,50, Color.BLACK,100,255);
-            game.drawText(game.loadFont("outlinePixelFont.ttf"),"Main Menu",120,150, Color.BLACK,70,255);
-            game.drawText(game.loadFont("outlinePixelFont.ttf"),"Play Again",110,205, Color.BLACK,70,255);
+            game.drawText(game.loadFont("outlinePixelFont.ttf"),"Game Over",70,50, Color.WHITE,100,255,true);
+            game.drawText(game.loadFont("outlinePixelFont.ttf"),"Main Menu",120,150, Color.WHITE,70,255,true);
+            game.drawText(game.loadFont("outlinePixelFont.ttf"),"Play Again",110,205, Color.WHITE,70,255,true);
 
         }
     }
@@ -238,7 +238,7 @@ public class GameScreen extends Screen
                     if (transparency == 5) { drawNiveau = false;niveauFadeIn = true; }
                 }
             }
-            game.drawText(game.loadFont("game-font.ttf"),"Niveau " + world.niveau,50,20, Color.BLACK,100,transparency);
+            game.drawText(game.loadFont("game-font.ttf"),"Niveau " + world.niveau,50,20, Color.WHITE,100,transparency,true);
         }
     }
 

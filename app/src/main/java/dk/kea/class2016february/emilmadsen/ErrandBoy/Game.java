@@ -6,6 +6,7 @@ import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
@@ -139,12 +140,13 @@ public abstract class Game extends Activity implements Runnable, View.OnKeyListe
     }
 
     public void drawText(Typeface font, String text, int positionX, int positionY,
-                         int color, int size, int transparency)
+                         int color, int size, int transparency, boolean shadow)
     {
         paint.setTypeface(font);
         paint.setTextSize(size);
         paint.setColor(color);
         paint.setAlpha(transparency);
+        if (shadow) paint.setShadowLayer(5,0,0, Color.BLACK);
         canvas.drawText(text,positionX,positionY+size, paint);
     }
 
